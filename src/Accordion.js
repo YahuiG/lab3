@@ -1,14 +1,29 @@
 import Panel from "./Panel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Accordion() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const[image, setImage] = useState([]);
+
+  const fetchCover = 'https://api.spotify.com/v1/search?q=rihanna&type=artist';
+
+  const fetchAlbumCover = () => {
+      axios.get(fetchCover).then((response) => {
+          setImage(response.data.images);
+      })
+  }
+
+  useEffect(() => {
+    fetchAlbumCover();
+  }, [])
+
   return (
     <div className="album">
       <h3>Select An Album:</h3>
       <Panel
         name="Abbey Road"
-        src="https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"
+        src={fetchAlbumCover}
         isActive={activeIndex === 0}
         onShow={() => setActiveIndex(0)}
       >
@@ -19,7 +34,7 @@ export default function Accordion() {
       </Panel>
       <Panel
         name="With the Beatles"
-        src="https://upload.wikimedia.org/wikipedia/en/0/0a/Withthebeatlescover.jpg"
+        src="https://upload.wikimedia.org/wikipedia/en/5/51/TheBeatles-LetItBe%282011VinylReissue%29.png"
         isActive={activeIndex === 1}
         onShow={() => setActiveIndex(1)}
       >
