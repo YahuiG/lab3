@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Accordion() {
-    const ifEmpty = `https://i.scdn.co/image/ab67616d0000b273a38d899953e77aaa38f0d738`;
+
+  const [activeIndex, setActiveIndex] = useState(false);
+  const [count, setCount] = useState(0);
 
   const [token, setToken] = useState("");
-  const [album, setAlbum] = useState([ifEmpty]);
+  const [album, setAlbum] = useState([]);
 
   // Artist ID from Spotify
 
@@ -50,15 +52,31 @@ export default function Accordion() {
       .catch((error) => console.log(error));
   }, []);
 
+    const albumList = album.map((album, index) => (
+        <Panel key={index}
+               src={album.images[1].url}
+               name={album.name}
+               isActive={activeIndex}
+               onShow={() => setActiveIndex(true)}
+        >
+        </Panel>
+      ));
+
   return (
     <div className="album">
       <h3>Select an Album</h3>
-      {album.map((album, index) => (
-        <div key={index}>
-          <img src={album.images[0].url} className="img"/>
-          <span>{album.name}</span>
-        </div>
-      ))}
+        {albumList};
     </div>
   );
 }
+{/* <Panel
+name="Abbey Road"
+src="https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"
+isActive={activeIndex === 0}
+onShow={() => setActiveIndex(0)}
+>
+<li>Abbey1</li>
+<li>Abbey2</li>
+<li>Abbey3</li>
+<li>Abbey4</li>
+</Panel> */}
