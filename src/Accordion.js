@@ -55,8 +55,8 @@ export default function Accordion() {
       <h3>Select an Album</h3>
       {album.map((album, index) => (
         <div key={index}>
-          <img src={album.images} />
-          <p>{album.name}</p>
+          <img src={album.images[0].url} className="img"/>
+          <span>{album.name}</span>
         </div>
       ))}
     </div>
