@@ -57,6 +57,9 @@ export default function Accordion() {
                isActive={activeIndex === album.id}
                onShow={() => setActiveIndex(album.id)}
         >
+          {/* no tracks info include in api change some content */}
+          <p>Followers: {album.followers.total}</p>
+          <a href={album.external_urls.spotify}>Go to →</a>
         </Panel>
       ));
 
