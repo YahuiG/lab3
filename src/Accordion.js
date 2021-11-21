@@ -4,19 +4,18 @@ import axios from "axios";
 
 export default function Accordion() {
 
-  const [activeIndex, setActiveIndex] = useState(false);
-  const [count, setCount] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const [token, setToken] = useState("");
   const [album, setAlbum] = useState([]);
-
-  // Artist ID from Spotify
 
   const fetchCover =
     "https://api.spotify.com/v1/search?query=rihanna&type=artist&offset=0&limit=5";
 
   useEffect(() => {
-    // Api call for retrieving token
+    // Copy from Spotiy API Authorization Guides
+
+    // Give Asscees to visit api
     axios("https://accounts.spotify.com/api/token", {
       method: "POST",
       headers: {
@@ -35,7 +34,6 @@ export default function Accordion() {
         console.log(tokenresponse.data.access_token);
         setToken(tokenresponse.data.access_token);
 
-        // Api call for retrieving tracks data
         axios(fetchCover, {
           method: "GET",
           headers: {
@@ -56,8 +54,8 @@ export default function Accordion() {
         <Panel key={index}
                src={album.images[1].url}
                name={album.name}
-               isActive={activeIndex}
-               onShow={() => setActiveIndex(true)}
+               isActive={activeIndex === album.id}
+               onShow={() => setActiveIndex(album.id)}
         >
         </Panel>
       ));
@@ -69,14 +67,3 @@ export default function Accordion() {
     </div>
   );
 }
-{/* <Panel
-name="Abbey Road"
-src="https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"
-isActive={activeIndex === 0}
-onShow={() => setActiveIndex(0)}
->
-<li>Abbey1</li>
-<li>Abbey2</li>
-<li>Abbey3</li>
-<li>Abbey4</li>
-</Panel> */}
